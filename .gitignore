@@ -2,4 +2,4 @@ target/*
 .idea/*
 *.iml
 
-thebot-webapp/src/main/resources/application.properties
+*/src/main/resources/application.properties
