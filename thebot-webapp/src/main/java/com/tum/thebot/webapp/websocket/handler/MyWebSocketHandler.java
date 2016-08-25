@@ -5,6 +5,7 @@ import com.tum.thebot.webapp.slack.data.SlackEvent;
 import com.tum.thebot.webapp.slack.mapper.EventMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketHandler;
@@ -41,23 +42,29 @@ public class MyWebSocketHandler implements WebSocketHandler {
 
     @Override
     public void handleMessage(WebSocketSession webSocketSession, WebSocketMessage<?> webSocketMessage) throws Exception {
-        log.info("message: {}",webSocketMessage.getPayload());
+
         if(webSocketMessage instanceof TextMessage) {
+            log.info("message: {}",webSocketMessage.getPayload());
             TextMessage txt = (TextMessage) webSocketMessage;
-            SlackEvent message = eventMapper.transform(txt.getPayload());
-            if(message.getType().equals("message")) {
-                log.info("message: {}, channel: {}, user: {}",
-                        message.getMessage(), message.getChannelName(), message.getUserName());
-                if(message.getMessage().equals("ตั้ม")) {
-                    slackClient.sendMessage(answer.get( index++ % 3 ),message.getChannelName());
-                }
-            }
+            handleMessage(txt.getPayload());
+        } else {
+            log.warn("cannot handle message {}", webSocketMessage.getClass().getSimpleName());
+        }
+    }
+
+    @Async
+    public void handleMessage(String msg) {
+
+        SlackEvent message = eventMapper.transform(msg);
+        if(message.getType().equals("message")) {
+            log.info("message: {}, channel: {}, user: {}",
+                    message.getMessage(), message.getChannelName(), message.getUserName());
         }
     }
 
     @Override
     public void handleTransportError(WebSocketSession webSocketSession, Throwable throwable) throws Exception {
-
+        log.error("found error: ",throwable);
     }
 
     @Override

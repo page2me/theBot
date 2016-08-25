@@ -21,7 +21,7 @@ public class EventMapper {
         this.slackChannelMapper = slackChannelMapper;
     }
 
-    public SlackEvent transform(String response) {
+    public synchronized SlackEvent transform(String response) {
         ObjectMapper mapper = new ObjectMapper();
 
         try {
