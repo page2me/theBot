@@ -1,4 +1,4 @@
-package com.tum.thebot.webapp.wss;
+package com.tum.thebot.webapp.websocket.handler;
 
 import com.tum.thebot.webapp.slack.SlackClient;
 import com.tum.thebot.webapp.slack.data.SlackEvent;
@@ -45,8 +45,13 @@ public class MyWebSocketHandler implements WebSocketHandler {
         if(webSocketMessage instanceof TextMessage) {
             TextMessage txt = (TextMessage) webSocketMessage;
             SlackEvent message = eventMapper.transform(txt.getPayload());
-            log.info("message: {}, channel: {}, user: {}",
-                    message.getMessage(), message.getChannelName(), message.getUserName());
+            if(message.getType().equals("message")) {
+                log.info("message: {}, channel: {}, user: {}",
+                        message.getMessage(), message.getChannelName(), message.getUserName());
+                if(message.getMessage().equals("ตั้ม")) {
+                    slackClient.sendMessage(answer.get( index++ % 3 ),message.getChannelName());
+                }
+            }
         }
     }
 

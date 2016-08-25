@@ -1,4 +1,4 @@
-package com.tum.thebot.webapp.wss;
+package com.tum.thebot.webapp.websocket.handler;
 
 import com.tum.thebot.webapp.slack.data.SlackResponse;
 import com.tum.thebot.webapp.slack.SlackClient;

@@ -2,5 +2,5 @@
 .idea/*
 *.iml
 
-*/src/main/resources/application.properties
+thebot-webapp/src/main/resources/application.yml
 

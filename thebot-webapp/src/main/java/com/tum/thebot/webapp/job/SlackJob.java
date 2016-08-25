@@ -2,7 +2,7 @@ package com.tum.thebot.webapp.job;
 
 import com.tum.thebot.webapp.slack.data.SlackResponse;
 import com.tum.thebot.webapp.slack.SlackClient;
-import com.tum.thebot.webapp.wss.MyWebSocketBuilder;
+import com.tum.thebot.webapp.websocket.handler.MyWebSocketBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.WebSocketHandler;
